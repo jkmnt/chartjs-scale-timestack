@@ -23,12 +23,19 @@ export interface TimestackScaleOptions extends CartesianScaleOptions {
     /** Tooltip format options */
     tooltip_format: Intl.DateTimeFormatOptions;
 
-    /** Stick extra bottom tick at min if first [thres * axis_width] part of scale have no bottom ticks.
+    /** Add extra bottom tick at min boundary if first [thres * axis_width] part of scale has no bottom ticks.
      * Set false to completely disable the feature
      *
-     * @default 0.33 (1/3 of scale width)
+     * @default 0.33 (first 1/3 of scale width)
      */
-    extra_tick_thres: number | false;
+    left_floating_tick_thres: number | false;
+
+    /** Add extra bottom tick at right boundary if last [thres * axis_width] part of scale has no bottom ticks.
+     * Set false to completely disable the feature
+     *
+     * @default false
+     */
+    right_floating_tick_thres: number | false;
     /**
      * Array of ticks generators to override the default ones.
      * NOTE: would be called just once at chart creation
@@ -176,7 +183,8 @@ export class TimestackScale extends Scale<TimestackScaleOptions> {
       tooltip_format: DEF_TOOLTIP_FORMAT,
       density: 0.5,
       max_density: 0.75,
-      extra_tick_thres: 0.33,
+      left_floating_tick_thres: 0.33,
+      right_floating_tick_thres: false,
     },
     ticks: {
       // @ts-ignore : this one is needed to prevent the autoSkip purging our ticks.
@@ -208,7 +216,7 @@ export class TimestackScale extends Scale<TimestackScaleOptions> {
   }
 
   init(options: TimestackScaleOptions) {
-    // the proxies resolving likely have a perfomance hit for creating many datetime object, so cache it here
+    // the proxies resolving likely has a perfomance hit for creating many datetime object, so cache it here
     this._dt_opts = options.timestack.datetime ?? {};
 
     super.init(options);
@@ -220,7 +228,7 @@ export class TimestackScale extends Scale<TimestackScaleOptions> {
     // fallback, shouldnt't happen
     min = isFinite(min) ? min : this._dt_now().startOf('day').toMillis();
     max = isFinite(max) ? max : this._dt_now().endOf('day').toMillis() + 1;
-    // copy from the TimeScale. won't hurt to have it
+    // copy from the TimeScale. won't hurt to have range well-defined
     this.min = Math.min(min, max - 1);
     this.max = Math.max(min + 1, max);
   }
@@ -268,9 +276,24 @@ export class TimestackScale extends Scale<TimestackScaleOptions> {
     return best[0];
   }
 
+  _need_floating_left_tick(ticks_with_bottoms: Tick[]) {
+    const thres = this.options.timestack.left_floating_tick_thres;
+    if (thres === false) return false;
+    if (!ticks_with_bottoms.length) return true;
+    const neigh_rel = (ticks_with_bottoms[0].value - this.min) / (this.max - this.min);
+    return neigh_rel > thres;
+  }
+
+  _need_floating_right_tick(ticks_with_bottoms: Tick[]) {
+    const thres = this.options.timestack.right_floating_tick_thres;
+    if (thres === false) return false;
+    if (!ticks_with_bottoms.length) return true;
+    const neigh_rel = (this.max - ticks_with_bottoms[ticks_with_bottoms.length - 1].value) / (this.max - this.min);
+    return neigh_rel > thres;
+  }
+
   _build_ticks() {
     const { min, max } = this;
-    const options = this.options.timestack;
 
     const gen = this._choose_gen(max - min);
 
@@ -287,20 +310,39 @@ export class TimestackScale extends Scale<TimestackScaleOptions> {
 
     const ticks = gen.create(min_dt, max_dt, prefer_long_bottom);
 
-    if (!gen.bottom || options.extra_tick_thres === false) return ticks;
+    if (!gen.bottom) return ticks;
 
-    // Q&D and a little messy floating label generation.
-    // fb stands for the 'first bottom'
-    const fb = ticks.find(has_bottom);
-    const fb_rel = fb ? (fb.value - min) / (max - min) : undefined;
+    const ticks_with_bottoms = ticks.filter(has_bottom);
 
-    if (fb_rel === undefined || fb_rel >= options.extra_tick_thres) {
-      const label = gen.format(min_dt, false, true, prefer_long_bottom(min_dt));
-      const text = '\u2026' + label[1];
-      // need to measure the fit to avoid collision with first_with_bottom
-      if (fb_rel === undefined || this.ctx.measureText(text).width * 2 < this.getPixelForDecimal(fb_rel)) {
-        ticks.unshift({ value: min, label: ['', text] });
+    if (this._need_floating_left_tick(ticks_with_bottoms)) {
+      let tick;
+      tick = gen.create_floating(min_dt, 'left', prefer_long_bottom);
+
+      if (ticks_with_bottoms.length) {
+        // need to check the fit with neighbour
+        const neigh = ticks_with_bottoms[0];
+        const width = this.ctx.measureText(tick.label[1]).width;
+        // can't use the getPixelForValue here, the margins are not configured yet.
+        // estimating the range manually with x2 safe factor
+        const space = ((neigh.value - this.min) * this.width) / (this.max - this.min);
+        if (width * 2 > space) tick = undefined;
       }
+
+      if (tick) ticks.unshift(tick);
+    }
+
+    if (this._need_floating_right_tick(ticks_with_bottoms)) {
+      let tick;
+      tick = gen.create_floating(max_dt, 'right', prefer_long_bottom);
+
+      if (ticks_with_bottoms.length) {
+        const neigh = ticks_with_bottoms[ticks_with_bottoms.length - 1];
+        const width = this.ctx.measureText(tick.label[1]).width;
+        const space = ((this.max - neigh.value) * this.width) / (this.max - this.min);
+        if (width * 2 > space) tick = undefined;
+      }
+
+      if (tick) ticks.push(tick);
     }
 
     return ticks;

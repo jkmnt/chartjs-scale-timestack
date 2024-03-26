@@ -87,6 +87,14 @@ export class TickGenerator {
     return ticks;
   }
 
+  create_floating(dt: DateTime, pos: 'left' | 'right', prefer_long_bottom: (dt: DateTime) => boolean) {
+    const bottom = this.bottom;
+    const fmt = bottom ? (prefer_long_bottom(dt) && bottom.long_fmt ? bottom.long_fmt : bottom.short_fmt) : undefined;
+    const text = fmt ? dt.toLocaleString(fmt) : '';
+
+    return { value: dt.toMillis(), label: ['', pos === 'left' ? '\u2026' + text : text + '\u2026'] };
+  }
+
   // Convenience method to apply some global changes to formats.
   // Intended to override hour12, numeric => 2-digit etc
   patch_formats(patch: Intl.DateTimeFormatOptions) {
