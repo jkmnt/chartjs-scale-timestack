@@ -98,9 +98,9 @@ export class TickGenerator {
   // Convenience method to apply some global changes to formats.
   // Intended to override hour12, numeric => 2-digit etc
   patch_formats(patch: Intl.DateTimeFormatOptions) {
-    function apply(dst: Intl.DateTimeFormatOptions) {
+    function apply(dst: any) {
       for (const e of Object.entries(patch)) {
-        const k = e[0] as keyof Intl.DateTimeFormatOptions;
+        const k = e[0];
         const v = e[1];
         if (k === 'hour12' && dst.hour) dst.hour12 = v;
         if (dst[k]) dst[k] = e[1];
