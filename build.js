@@ -49,7 +49,6 @@ async function main() {
   const iife = {
     ...common,
     format: 'iife',
-    globalName: 'chartjs_scale_timestack',
     outfile: `dist/${name}.js`,
     plugins: [replace_globals],
   };
@@ -57,7 +56,6 @@ async function main() {
   const iife_min = {
     ...common,
     format: 'iife',
-    globalName: 'chartjs_scale_timestack',
     minify: true,
     outfile: `dist/${name}.min.js`,
     plugins: [replace_globals],
