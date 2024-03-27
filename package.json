@@ -1,33 +1,35 @@
 {
   "name": "chartjs-scale-timestack",
   "version": "1.0.0",
-  "description": "Opinionated time axis for Chart.js. Formats time for humans",
-  "main": "dist/chartjs-scale-timestack.js",
+  "description": "Opinionated time scale for Chart.js. Formats time for humans",
+  "main": "dist/chartjs-scale-timestack.cjs.js",
   "module": "dist/chartjs-scale-timestack.esm.js",
-  "types": "types/index.d.ts",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "build:esm": "esbuild src/index.ts --bundle --format=esm --target=es2020,edge88,firefox78,chrome87,safari14 --outfile=dist/chartjs-scale-timestack.esm.js --packages=external",
-    "build:cjs": "esbuild src/index.ts --bundle --format=cjs --target=es2020,edge88,firefox78,chrome87,safari14 --outfile=dist/chartjs-scale-timestack.js --packages=external",
-    "build:types": "tsc src/index.ts --declaration --emitDeclarationOnly --target es2020 --outDir types --moduleResolution node --lib dom --lib dom,es2020",
-    "build": "npm run build:esm && npm run build:cjs && npm run build:types"
+    "build": "node build.js && tsc --emitDeclarationOnly",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jkmnt/chartjs-scale-timestack.git"
   },
   "keywords": [
-    "chart.js",
+    "chartjs",
     "time",
+    "scale",
     "axis"
   ],
   "author": "jkmnt",
   "license": "MIT",
+  "files": [
+    "dist"
+  ],
   "bugs": {
     "url": "https://github.com/jkmnt/chartjs-scale-timestack/issues"
   },
   "homepage": "https://github.com/jkmnt/chartjs-scale-timestack#readme",
   "devDependencies": {
-    "esbuild": "0.20.2",
+    "esbuild": "^0.20.2",
     "chart.js": ">=4",
     "typescript": "^4.2.4"
   },
