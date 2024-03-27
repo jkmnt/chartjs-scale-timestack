@@ -8,11 +8,10 @@ Timestack formats time in two stacked rows. Top row shows the fine ticks while b
 shows the context.
 Timestack tries hard to choose the ticks looking _nice for humans_, i.e. `14:00`, `14:30`, `15:00`, `15:30` in hourly view and `1`, `5`, `10`, `15`, `25` days of the month in daily view.
 | | |
-|--|--|
-| ![](images/cap2.png) | ![](images/cap1.png)
-| ![](images/cap3.png) | ![](images/cap4.png)
-| ![](images/cap5.png) | ![](images/cap6.png)
-
+|-|-|
+| ![](images/cap2.png) | ![](images/cap1.png) |
+| ![](images/cap3.png) | ![](images/cap4.png) |
+| ![](images/cap5.png) | ![](images/cap6.png) |
 
 [Demo](https://raw.githubusercontent.com/jkmnt/chartjs-scale-timestack/main/demo/index.html)
 
