@@ -1,4 +1,5 @@
-import { DateObjectUnits, DateTime, DateTimeJSOptions, Settings } from 'luxon';
+import type { DateObjectUnits, DateTimeJSOptions } from 'luxon';
+import { DateTime, Settings } from 'luxon';
 
 const _widest_dates_cache = new Map<string, Record<string, DateObjectUnits>>();
 const _widest_labels_cache = new Map<string, number>();

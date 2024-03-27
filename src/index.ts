@@ -1,6 +1,6 @@
 import type { CartesianScaleTypeRegistry, RadialScaleTypeRegistry } from 'chart.js';
 
-import { TimestackScaleOptions } from './scale';
+import type { TimestackScaleOptions } from './scale';
 
 declare module 'chart.js' {
   export interface ScaleTypeRegistry extends CartesianScaleTypeRegistry, RadialScaleTypeRegistry {

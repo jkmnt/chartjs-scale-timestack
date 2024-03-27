@@ -1,7 +1,9 @@
-import { CartesianScaleOptions, Chart, Scale, Tick } from 'chart.js';
-import { DeepPartial } from 'chart.js/dist/types/utils';
+import type { CartesianScaleOptions, Tick, Chart } from 'chart.js';
+import type { DeepPartial } from 'chart.js/dist/types/utils';
+import type { DateTimeJSOptions, DateObjectUnits } from 'luxon';
 
-import { DateTime, DateTimeJSOptions, DateObjectUnits } from 'luxon';
+import { Scale } from 'chart.js';
+import { DateTime } from 'luxon';
 
 import { DaysTickGenerator, has_bottom, MonoTickGenerator, TickGenerator, YearsTickGenerator } from './ticks';
 

@@ -1,5 +1,7 @@
-import { Tick } from 'chart.js';
-import { DateTime, DateTimeUnit, DurationLike, Duration, DurationLikeObject, DateTimeJSOptions } from 'luxon';
+import type { Tick } from 'chart.js';
+import type { DateTimeUnit, DurationLike, DurationLikeObject, DateTimeJSOptions } from 'luxon';
+
+import { DateTime, Duration } from 'luxon';
 import { measure_max_label_width } from './measure';
 
 export interface TopTickSpec {
