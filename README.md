@@ -2,7 +2,7 @@
 
 ## Overview
 
-This custom scale adds the new timestack axis to Chart.js.
+This custom scale adds the new timestack axis to [Chart.js](https://www.chartjs.org).
 
 Timestack formats time in two stacked rows. Top row shows the fine ticks while bottom row
 shows the context.
