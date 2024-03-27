@@ -1,1 +1,88 @@
 # chartjs-scale-timestack
+
+## Overview
+
+This custom scale adds the new timestack axis to Chart.js.
+
+Timestack formats time in two stacked rows. Top row shows the fine ticks while bottom row
+shows the context.
+Timestack tries hard to choose the ticks being _nice for humans_, i.e. `14:00`, `14:30`, `15:00`, `15:30` in hourly view and `1`, `5`, `10`, `15`, `25` days of the month in daily view.
+
+[Pictures]
+[Demo link]
+
+## Installation
+
+Timestack uses [Luxon](https://moment.github.io/luxon/) for locale-aware time formatting.
+You **don't** need to include [chartjs-adapter-luxon](https://github.com/chartjs/chartjs-adapter-luxon) for it to work.
+
+### npm
+
+```
+npm install luxon chartjs-scale-timestack --save
+```
+
+```javascript
+import { Chart } from 'chart.js';
+import 'chartjs-scale-timestack';
+```
+
+### CDN
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-scale-timestack/dist/chartjs-scale-timestack.min.js"></script>
+```
+
+Timestack functions are available in global `_timestack` object.
+
+## Usage
+
+```javascript
+new Chart(ctx, {
+  options: {
+    scales: {
+      x: {
+        type: 'timestack',
+      },
+    },
+  },
+  ...
+});
+```
+
+Note:
+
+- The dataset points must be in `{x, y}` format with millisecond timestamps. X-values are not parsed.
+
+  ```javascript
+  const dataset = {
+    data: [
+        {x: 1711537965, y: 1},
+        {x: 1711537973, y: 2},
+        ...
+    ]
+  }
+  ```
+
+- Dateset labels are not supported. Use stock `time` scale for these.
+- Bar charts with offset gridlines are not supported. Use `time` scale for these too.
+- Custom tick formatting callback is ignored.
+- Ticks `autoSkip` options are not respected. Timestack bypasses the autoSkip algorithm.
+- `ticks.maxTicksLimit` is respected and may be used to prefer more sparse ticks sequences.
+
+## Options
+
+Namespace: `options.scales[id].timescale`
+
+| Name                      | Default                         | Description                                                                                                                                                                                                                                                                |
+| ------------------------- | ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| datetime                  | {}                              | Luxon DateTime creation options (zone, locale, etc)                                                                                                                                                                                                                        |
+| density                   | 0.5                             | Desired labels density (total labels width / scale width)                                                                                                                                                                                                                  |
+| max_density               | 0.75                            | Maximum labels density                                                                                                                                                                                                                                                     |
+| tooltip_format            | something sane                  | Tooltip format options (Intl.DateTimeFormatOptions)                                                                                                                                                                                                                        |
+| left_floating_tick_thres  | 0.33 (first 1/3 of scale width) | Add extra bottom tick at min boundary if first [thres * axis_width] part of scale has no bottom ticks. Set false to completely disable the feature                                                                                                                         |
+| right_floating_tick_thres | false                           | Add extra bottom tick at right boundary if last [thres * axis_width] part of scale has no bottom ticks. Set false to completely disable the feature                                                                                                                        |
+| get_tick_generators       |                                 | Factory function returning array of ticks generators to override the default ones. Would be called just once at chart creation                                                                                                                                             |
+| format_style              |                                 | Default formatting options (Intl.DateTimeFormatOptions) to customize the tick generators format style. i.e. {hour12: true, minute: '2-digit'} etc. Use if stock generators are ok except these changes, otherwise define get_tick_generators() for complete customization. |

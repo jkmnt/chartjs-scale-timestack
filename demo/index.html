@@ -1,0 +1,91 @@
+<html>
+  <head>
+    <title>chartjs-scale-timestack demo</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js"></script>
+    <script src="chartjs-scale-timestack.js"></script>
+  </head>
+  <body>
+    <div>
+      <p>This demo uses the chartjs-plugin-zoom for interactivity</p>
+      <canvas id="myChart"></canvas>
+      <button id="zoomout" type="button">Zoom Out</button>
+
+      <p>
+        Zoom with mouse selection, pan with mouse+Ctrl, resize browser window. See the ticks
+        generated at different zoom levels and chart widths.
+      </p>
+    </div>
+
+    <script>
+      const max = luxon.DateTime.local();
+      const min = max.minus({ month: 2 });
+      const from = min.toMillis();
+      const to = max.toMillis();
+
+      const points = [];
+      let y = 50;
+      let min_y = +Infinity;
+      let max_y = -Infinity;
+      for (let ts = from; ts < to; ts += (to - from) / 2048) {
+        y += Math.random() > 0.5 ? 1 : -1;
+        min_y = Math.min(min_y, y);
+        max_y = Math.max(max_y, y);
+        points.push({ x: ts, y });
+      }
+
+      const ctx = document.getElementById('myChart');
+
+      const chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          datasets: [
+            {
+              data: points,
+              borderWidth: 1,
+              pointRadius: 0,
+            },
+          ],
+        },
+        options: {
+          animation: false,
+          scales: {
+            x: {
+              type: 'timestack',
+              ticks: {
+                color: (ctx) => (ctx?.tick?.major ? '#222' : '#666'),
+              },
+              min: from,
+              max: to,
+            },
+            y: {
+              type: 'linear',
+              min: min_y,
+              max: max_y,
+            },
+          },
+          plugins: {
+            legend: false,
+            zoom: {
+              pan: {
+                enabled: true,
+                mode: 'x',
+                modifierKey: 'ctrl',
+              },
+              zoom: {
+                drag: {
+                  enabled: true,
+                },
+                mode: 'x',
+              },
+            },
+          },
+        },
+      });
+
+      document.getElementById('zoomout').addEventListener('click', () => chart.zoom(0.25));
+    </script>
+  </body>
+</html>

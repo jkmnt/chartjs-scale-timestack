@@ -50,6 +50,7 @@ async function main() {
     ...common,
     format: 'iife',
     outfile: `dist/${name}.js`,
+    globalName: '_timestack',
     plugins: [replace_globals],
   };
 
@@ -58,6 +59,7 @@ async function main() {
     format: 'iife',
     minify: true,
     outfile: `dist/${name}.min.js`,
+    globalName: '_timestack',
     plugins: [replace_globals],
   };
 
