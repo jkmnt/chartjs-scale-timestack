@@ -5,12 +5,14 @@
     <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js"></script>
-    <script src="chartjs-scale-timestack.js"></script>
+    <script src="chartjs-scale-timestack.min.js"></script>
   </head>
   <body>
     <div>
-      <p>This demo uses the chartjs-plugin-zoom for interactivity</p>
-      <canvas id="myChart"></canvas>
+      <p>This demo uses the chartjs-zoom-plugin</p>
+      <div>
+        <canvas style="min-height: 50vh" id="myChart"></canvas>
+      </div>
       <button id="zoomout" type="button">Zoom Out</button>
 
       <p>
@@ -50,6 +52,7 @@
           ],
         },
         options: {
+          maintainAspectRatio: false,
           animation: false,
           scales: {
             x: {

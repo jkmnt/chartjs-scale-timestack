@@ -9,7 +9,7 @@ shows the context.
 Timestack tries hard to choose the ticks being _nice for humans_, i.e. `14:00`, `14:30`, `15:00`, `15:30` in hourly view and `1`, `5`, `10`, `15`, `25` days of the month in daily view.
 
 [Pictures]
-[Demo link]
+[Demo](https://raw.githubusercontent.com/jkmnt/chartjs-scale-timestack/main/demo/index.html)
 
 ## Installation
 
