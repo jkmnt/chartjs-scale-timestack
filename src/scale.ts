@@ -9,49 +9,47 @@ import { DaysTickGenerator, has_bottom, MonoTickGenerator, TickGenerator, YearsT
 
 export interface TimestackScaleOptions extends CartesianScaleOptions {
   timestack: {
-    /** Luxon DateTime creation options (zone, locale, etc) */
+    /**
+     Luxon DateTime creation options (zone, locale, etc)
+     */
     datetime: DateTimeJSOptions;
 
-    /** Desired labels density
-     * @default 0.5 (total labels width / scale width = 50%)
+    /**
+      Desired labels density _(total labels width / scale width)_
+      @default 0.5 (50 %)
      */
     density: number;
 
-    /** Maximum labels density
-     * @default 0.75 (total labels width / scale width = 75%)
+    /**
+      Maximum labels density
+      @default 0.75 (total labels width / scale width = 75%)
      */
     max_density: number;
 
-    /** Tooltip format options */
+    /**
+      Tooltip format options
+      */
     tooltip_format: Intl.DateTimeFormatOptions;
 
-    /** Add extra bottom tick at min boundary if first [thres * axis_width] part of scale has no bottom ticks.
-     * Set false to completely disable the feature
-     *
-     * @default 0.33 (first 1/3 of scale width)
+    /**
+      Add extra bottom tick at min boundary if first _[thres * axis_width]_ part of scale has no bottom ticks. Set false to completely disable the feature
+      @default 0.33 (first 1/3 of scale width)
      */
     left_floating_tick_thres: number | false;
 
-    /** Add extra bottom tick at right boundary if last [thres * axis_width] part of scale has no bottom ticks.
-     * Set false to completely disable the feature
-     *
-     * @default false
+    /**
+      Add extra bottom tick at max boundary if last _[thres * axis_width]_ part of scale has no bottom ticks. Set false to completely disable the feature
+      @default false
      */
     right_floating_tick_thres: number | false;
     /**
-     * Array of ticks generators to override the default ones.
-     * NOTE: would be called just once at chart creation
+      Factory function returning array of tick generators to replace the default ones. Would be called just once at chart creation
      */
-    get_tick_generators: () => TickGenerator[];
+    make_tick_generators: () => TickGenerator[];
 
-    /** Default formatting options to customize the tick generators format style.
-     *
-     * i.e. {hour12: true, minute: '2-digit'} etc
-     *
-     * Use if stock generators are ok except these changes,
-     * otherwise define get_tick_generators() for complete customization.
-     *
-     * @default undefined
+    /**
+      Formatting options _(Intl.DateTimeFormatOptions)_ to customize the tick generators format style. i.e. `{hour12: true, month: 'long', minute: '2-digit'}` etc. Use if stock generators are ok except these changes, otherwise define make_tick_generators() for complete customization
+      @default undefined
      */
     format_style: Intl.DateTimeFormatOptions;
   };
@@ -207,7 +205,7 @@ export class TimestackScale extends Scale<TimestackScaleOptions> {
     // Init the generators just once taking it from raw config object to workaround the chart.js proxies magic.
     // Chart.js assumes the options are promitive objects and doing some wrong proxy transforms upon our array of classes.
     const opts: TimestackScaleOptions | undefined = cfg.chart?.config.options?.scales?.[cfg.id] as any;
-    const gens = opts?.timestack?.get_tick_generators ? opts?.timestack?.get_tick_generators() : DEF_TICK_GENERATORS;
+    const gens = opts?.timestack?.make_tick_generators ? opts?.timestack?.make_tick_generators() : DEF_TICK_GENERATORS;
     this._gens = gens;
 
     if (opts?.timestack.format_style) {

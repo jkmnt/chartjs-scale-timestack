@@ -7,10 +7,10 @@ const handle_external_globals = (externals) => {
   return {
     name,
     setup(build) {
-      build.onResolve(
-        { filter: new RegExp('^(' + Object.keys(externals).join('|') + ')$') },
-        (args) => ({ path: args.path, namespace: name })
-      );
+      build.onResolve({ filter: new RegExp('^(' + Object.keys(externals).join('|') + ')$') }, (args) => ({
+        path: args.path,
+        namespace: name,
+      }));
       build.onLoad({ filter: /.*/, namespace: name }, (args) => {
         return { contents: `module.exports = ${externals[args.path]}` };
       });

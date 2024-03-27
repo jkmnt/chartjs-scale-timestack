@@ -14,7 +14,7 @@ export interface BottomTickSpec {
   long_fmt?: Intl.DateTimeFormatOptions;
 }
 
-interface _SeqTick {
+interface SeqTick {
   dt: DateTime;
   is_major: boolean;
   with_bottom: boolean;
@@ -35,7 +35,7 @@ export class TickGenerator {
   /** Generator yielding (possibly infinite) sequence of _SeqTick-s. It's ok to return the ticks
    * before the 'from'
    */
-  *seq(from: DateTime): Generator<_SeqTick> {}
+  *seq(from: DateTime): Generator<SeqTick> {}
 
   constructor(top: TopTickSpec & { size: number }, bottom?: BottomTickSpec & { size: number }) {
     this.top = top;
