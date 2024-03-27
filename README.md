@@ -6,7 +6,7 @@ This custom scale adds the new timestack axis to Chart.js.
 
 Timestack formats time in two stacked rows. Top row shows the fine ticks while bottom row
 shows the context.
-Timestack tries hard to choose the ticks being _nice for humans_, i.e. `14:00`, `14:30`, `15:00`, `15:30` in hourly view and `1`, `5`, `10`, `15`, `25` days of the month in daily view.
+Timestack tries hard to choose the ticks looking _nice for humans_, i.e. `14:00`, `14:30`, `15:00`, `15:30` in hourly view and `1`, `5`, `10`, `15`, `25` days of the month in daily view.
 
 [Pictures]
 [Demo](https://raw.githubusercontent.com/jkmnt/chartjs-scale-timestack/main/demo/index.html)
@@ -14,7 +14,7 @@ Timestack tries hard to choose the ticks being _nice for humans_, i.e. `14:00`, 
 ## Installation
 
 Timestack uses [Luxon](https://moment.github.io/luxon/) for locale-aware time formatting.
-You **don't** need to include [chartjs-adapter-luxon](https://github.com/chartjs/chartjs-adapter-luxon) for it to work.
+You **do not** need to include [chartjs-adapter-luxon](https://github.com/chartjs/chartjs-adapter-luxon) for it to work.
 
 ### npm
 
@@ -66,10 +66,10 @@ Note:
   }
   ```
 
-- Dateset labels are not supported. Use stock `time` scale for these.
+- X-values as labels are not supported. Use stock `time` scale for these.
 - Bar charts with offset gridlines are not supported. Use `time` scale for these too.
 - Custom tick formatting `callback` is ignored.
-- Using ticks rotation feature is not recommended. Timestack sets `maxTickRotation` = 0 by default.
+- Using rotated ticks is not recommended. Timestack sets `maxTickRotation` = 0 by default.
 - Ticks `autoSkip` options are not respected. Timestack bypasses the autoSkip algorithm.
 - `ticks.maxTicksLimit` is respected. Timestack will ignore the ticks sequences violating it.
 
