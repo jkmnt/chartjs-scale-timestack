@@ -7,7 +7,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "node build.js && tsc --emitDeclarationOnly",
-    "prepublish": "node run build",
+    "prepack": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,7 +23,9 @@
   "author": "jkmnt",
   "license": "MIT",
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "cap.png"
   ],
   "bugs": {
     "url": "https://github.com/jkmnt/chartjs-scale-timestack/issues"
