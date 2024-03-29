@@ -71,7 +71,7 @@ Note:
 - Custom tick formatting `callback` is ignored.
 - Using rotated ticks is not recommended. Timestack sets `maxTickRotation` = 0 by default.
 - Ticks `autoSkip` options are not respected. Timestack bypasses the autoSkip algorithm.
-- `ticks.maxTicksLimit` is respected. Timestack will ignore the ticks sequences violating it.
+- `ticks.maxTicksLimit` is respected. Timestack will skip the ticks sequences violating it.
 
 ## Options
 
