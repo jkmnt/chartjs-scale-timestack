@@ -14,8 +14,7 @@ Timestack tries hard to choose the ticks looking _nice for humans_, i.e. `14:00`
 
 ## Installation
 
-Timestack uses [Luxon](https://moment.github.io/luxon/) for locale-aware time formatting.
-You **do not** need to include [chartjs-adapter-luxon](https://github.com/chartjs/chartjs-adapter-luxon) for it to work.
+Timestack internally uses [Luxon](https://moment.github.io/luxon/) for locale-aware time formatting.
 
 ### npm
 
