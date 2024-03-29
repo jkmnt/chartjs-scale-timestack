@@ -23,9 +23,7 @@
   "author": "jkmnt",
   "license": "MIT",
   "files": [
-    "dist",
-    "README.md",
-    "cap.png"
+    "dist"
   ],
   "bugs": {
     "url": "https://github.com/jkmnt/chartjs-scale-timestack/issues"
