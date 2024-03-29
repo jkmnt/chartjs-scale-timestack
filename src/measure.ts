@@ -22,7 +22,7 @@ function _pick_widest_sample(
   return longest[0];
 }
 
-// The trick is: widest locals dates depends on months and weeks names only.
+// The trick is: widest locals dates depend on months and weeks names only.
 // For the time part let's choose the daytime with two digits at each unit. These digits are better contain no narrow 1's.
 // Then the widest months (short and long) are found looping thru all 12 months.
 // The dates with widest weekdays ((short, long and narrow) are found in 20ths of these months. Then these dates are guaranteed to be the widest

@@ -1,7 +1,6 @@
 const esbuild = require('esbuild');
 
 // copied from https://github.com/yanm1ng/esbuild-plugin-external-global
-
 const handle_external_globals = (externals) => {
   const name = 'globals';
   return {
@@ -37,13 +36,13 @@ async function main() {
   const esm = {
     ...common,
     format: 'esm',
-    outfile: `dist/${name}.esm.js`,
+    outfile: `dist/index.esm.js`,
   };
 
   const cjs = {
     ...common,
     format: 'cjs',
-    outfile: `dist/${name}.cjs.js`,
+    outfile: `dist/index.cjs.js`,
   };
 
   const iife = {

@@ -1,12 +1,13 @@
 {
   "name": "chartjs-scale-timestack",
-  "version": "1.0.0",
-  "description": "Opinionated time scale for Chart.js. Formats time for humans",
-  "main": "dist/chartjs-scale-timestack.cjs.js",
-  "module": "dist/chartjs-scale-timestack.esm.js",
+  "version": "1.0.1",
+  "description": "Alternative time scale for Chart.js. Formats time for humans",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "node build.js && tsc --emitDeclarationOnly",
+    "prepublish": "node run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
