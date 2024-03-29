@@ -16,14 +16,14 @@ export interface TimestackScaleOptions extends CartesianScaleOptions {
     datetime: DateTimeJSOptions;
 
     /**
-      Desired labels density _(total labels width / scale width)_
-      @default 0.5 (50 %)
+      Desired labels density [0..1]. Defined as total labels width / scale width
+      @default 0.5
      */
     density: number;
 
     /**
       Maximum labels density
-      @default 0.75 (total labels width / scale width = 75%)
+      @default 0.75
      */
     max_density: number;
 
@@ -33,13 +33,13 @@ export interface TimestackScaleOptions extends CartesianScaleOptions {
     tooltip_format: Intl.DateTimeFormatOptions;
 
     /**
-      Add extra bottom tick at min boundary if first _[thres * axis_width]_ part of scale has no bottom ticks. Set false to completely disable the feature
+      Add left bottom tick with ellipsis if there are no bottom ticks in first _[thres * axis_width]_ part of scale. Set `false` to disable the feature
       @default 0.33 (first 1/3 of scale width)
      */
     left_floating_tick_thres: number | false;
 
     /**
-      Add extra bottom tick at max boundary if last _[thres * axis_width]_ part of scale has no bottom ticks. Set false to completely disable the feature
+      Add right bottom tick with ellipsis if there are no bottom ticks in last _[thres * axis_width]_ part of scale. Set `false` to disable the feature
       @default false
      */
     right_floating_tick_thres: number | false;
@@ -49,7 +49,7 @@ export interface TimestackScaleOptions extends CartesianScaleOptions {
     make_tick_generators: () => TickGenerator[];
 
     /**
-      Formatting options _(Intl.DateTimeFormatOptions)_ to customize the tick generators format style. i.e. `{hour12: true, month: 'long', minute: '2-digit'}` etc. Use if stock generators are ok except these changes, otherwise define make_tick_generators() for complete customization
+      Formatting options _(Intl.DateTimeFormatOptions)_ to customize the default tick generators format style. i.e. `{hour12: true, month: 'long', minute: '2-digit'}` etc
       @default undefined
      */
     format_style: Intl.DateTimeFormatOptions;
@@ -201,7 +201,7 @@ export class TimestackScale extends Scale<TimestackScaleOptions> {
 
     if (!gen.bottom) return ticks;
 
-    const ticks_with_bottoms = ticks.filter((t) => Array.isArray(t) && t.label.length > 1);
+    const ticks_with_bottoms = ticks.filter((t) => Array.isArray(t.label) && t.label.length > 1);
 
     if (this._need_floating_left_tick(ticks_with_bottoms)) {
       let tick;
