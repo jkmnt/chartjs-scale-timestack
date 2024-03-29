@@ -27,7 +27,7 @@ import { Chart } from 'chart.js';
 import 'chartjs-scale-timestack';
 ```
 
-<!-- ### CDN
+### CDN
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -35,7 +35,7 @@ import 'chartjs-scale-timestack';
 <script src="https://cdn.jsdelivr.net/npm/chartjs-scale-timestack/dist/chartjs-scale-timestack.min.js"></script>
 ```
 
-Timestack functions are exposed via global `_timestack` object. -->
+Timestack functions are exposed via global `_timestack` object.
 
 ## Usage
 
