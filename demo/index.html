@@ -9,9 +9,9 @@
   </head>
   <body>
     <div>
-      <p>This demo uses the chartjs-zoom-plugin</p>
-      <div>
-        <canvas style="min-height: 50vh" id="myChart"></canvas>
+      <small>This demo uses the chartjs-zoom-plugin for interactivity</small>
+      <div style="display: relative; height: 50vh;">
+        <canvas id="chart"></canvas>
       </div>
       <button id="zoomout" type="button">Zoom Out</button>
 
@@ -38,7 +38,7 @@
         points.push({ x: ts, y });
       }
 
-      const ctx = document.getElementById('myChart');
+      const ctx = document.getElementById('chart');
 
       const chart = new Chart(ctx, {
         type: 'line',
