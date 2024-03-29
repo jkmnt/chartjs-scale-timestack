@@ -20,10 +20,6 @@ interface SeqTick {
   with_bottom: boolean;
 }
 
-export function has_bottom(tick: Tick) {
-  return Array.isArray(tick.label) && tick.label.length > 1;
-}
-
 /**
   Base tick generator class.
   Concrete tick generators must implement the *seq method

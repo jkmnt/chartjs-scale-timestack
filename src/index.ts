@@ -14,19 +14,6 @@ declare module 'chart.js' {
 
 Chart.register(TimestackScale);
 
-export {
-  TimestackScale,
-  TimestackScaleOptions,
-  DEF_TOOLTIP_FORMAT,
-  DEF_TICK_GENERATORS,
-  HM,
-  HMS,
-  MD,
-  MDAY,
-  MON,
-  YEAR,
-  YM,
-  YMD,
-} from './scale';
-
-export { TickGenerator, DaysTickGenerator, YearsTickGenerator, has_bottom } from './ticks';
+export { TimestackScale, TimestackScaleOptions, DEF_TOOLTIP_FORMAT } from './scale';
+export { TickGenerator, DaysTickGenerator, YearsTickGenerator } from './ticks';
+export { DEF_TICK_GENERATORS, HM, HMS, MD, MDAY, MON, YEAR, YM, YMD } from './defgens';
