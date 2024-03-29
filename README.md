@@ -10,7 +10,7 @@ Timestack tries hard to choose the ticks looking _nice for humans_, i.e. `14:00`
 
 ![](https://raw.githubusercontent.com/jkmnt/chartjs-scale-timestack/main/cap.png)
 
-<!-- [Demo](https://raw.githubusercontent.com/jkmnt/chartjs-scale-timestack/main/demo/index.html) -->
+[Demo](https://jkmnt.github.io/chartjs-scale-timestack)
 
 ## Installation
 
