@@ -10,10 +10,22 @@
   <body>
     <div>
       <small>This demo uses the chartjs-zoom-plugin for interactivity</small>
-      <div style="display: relative; height: 50vh;">
+
+      <div style="display: relative; height: 50vh; margin-top: 8px; margin-bottom: 8px">
         <canvas id="chart"></canvas>
       </div>
-      <button id="zoomout" type="button">Zoom Out</button>
+
+      <div style="display: flex; gap: 8px">
+        <button id="zoomout" type="button">Zoom Out</button>
+        <span style="margin-left: auto"></span>
+        <label>Month style</label>
+        <select id="month">
+          <option>short</option>
+          <option>long</option>
+          <option>numeric</option>
+          <option>2-digit</option>
+        </select>
+      </div>
 
       <p>
         Zoom with mouse selection, pan with mouse+Ctrl, resize browser window. See the ticks generated at different zoom
@@ -22,6 +34,12 @@
     </div>
 
     <script>
+      const params = new URL(document.location).searchParams;
+      const cfg = {
+        month: params.get('month') ?? 'short',
+        locale: params.get('locale'),
+      };
+
       const max = luxon.DateTime.local();
       const min = max.minus({ month: 2 });
       const from = min.toMillis();
@@ -62,6 +80,14 @@
               },
               min: from,
               max: to,
+              timestack: {
+                format_style: {
+                  month: cfg.month,
+                },
+                datetime: {
+                  locale: cfg.locale,
+                },
+              },
             },
             y: {
               type: 'linear',
@@ -88,7 +114,16 @@
         },
       });
 
-      document.getElementById('zoomout').addEventListener('click', () => chart.zoom(0.25));
+      const month_ctrl = document.getElementById('month');
+      const zoomout_ctrl = document.getElementById('zoomout');
+
+      zoomout_ctrl.addEventListener('click', () => chart.zoom(0.25));
+
+      month_ctrl.value = cfg.month;
+      month_ctrl.addEventListener('change', () => {
+        params.set('month', month_ctrl.value);
+        window.location.assign(window.location.pathname + '?' + params.toString());
+      });
     </script>
   </body>
 </html>
